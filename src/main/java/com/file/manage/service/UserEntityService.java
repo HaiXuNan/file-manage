@@ -2,6 +2,7 @@ package com.file.manage.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.file.manage.dao.bean.UserBaseEntity;
+import com.file.manage.dao.mapper.UserBaseMapper;
 import com.file.manage.entity.ResponseEntity;
 import com.file.manage.entity.StatusCode;
 import com.file.manage.exception.ServerException;

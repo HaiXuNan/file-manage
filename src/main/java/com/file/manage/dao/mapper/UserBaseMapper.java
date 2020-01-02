@@ -1,4 +1,4 @@
-package com.file.manage.service;
+package com.file.manage.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.file.manage.dao.bean.UserBaseEntity;
