@@ -8,19 +8,20 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("detail_info")
-public class DetailInfoEntity {
+@TableName("user_base")
+public class UserBaseEntity {
 
     @TableId(value = "id", type = IdType.AUTO)
     private int id;
 
-    private int baseId;
+    private String username;
 
-    private String filePath;
+    private String password;
 
     private LocalDateTime createTime;
 
-    private LocalDateTime updateTime;
+    private String roleId;
 
-    private int version;
+    private boolean status;
+
 }

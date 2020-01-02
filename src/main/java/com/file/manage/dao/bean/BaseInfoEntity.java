@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 public class BaseInfoEntity {
 
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String fileName;

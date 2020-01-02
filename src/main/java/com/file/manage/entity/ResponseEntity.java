@@ -15,7 +15,7 @@ public class ResponseEntity<T> {
     private T result;
 
     public static ResponseEntity<String> success() {
-        return new ResponseEntity<>(StatusCode.SUCCESS.code, StatusCode.SUCCESS.msg, "");
+        return new ResponseEntity<>(StatusCode.SUCCESS.code, StatusCode.SUCCESS.msg, StatusCode.SUCCESS.msg);
     }
 
     public static <T> ResponseEntity<T> success(T result) {
@@ -26,11 +26,19 @@ public class ResponseEntity<T> {
         return new ResponseEntity<>(statusCode.code, statusCode.msg, result);
     }
 
+    public static ResponseEntity<String> failure() {
+        return new ResponseEntity<>(StatusCode.FAILURE.code, StatusCode.FAILURE.msg, StatusCode.FAILURE.msg);
+    }
+
     public static <T> ResponseEntity<T> failure(T result) {
         return new ResponseEntity<>(StatusCode.FAILURE.code, StatusCode.FAILURE.msg, result);
     }
 
-    public static ResponseEntity<String> failure() {
-        return new ResponseEntity<>(StatusCode.FAILURE.code, StatusCode.FAILURE.msg, null);
+    public static ResponseEntity<String> failure(StatusCode statusCode) {
+        return new ResponseEntity<>(statusCode.code, statusCode.msg, statusCode.msg);
+    }
+
+    public static <T> ResponseEntity<T> failure(StatusCode statusCode, T result) {
+        return new ResponseEntity<>(statusCode.code, statusCode.msg, result);
     }
 }

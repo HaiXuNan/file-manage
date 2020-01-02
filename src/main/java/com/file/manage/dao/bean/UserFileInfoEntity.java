@@ -8,19 +8,14 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("detail_info")
-public class DetailInfoEntity {
-
+@TableName("user_file_info")
+public class UserFileInfoEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private int id;
 
-    private int baseId;
+    private int userId;
 
-    private String filePath;
+    private int fileId;
 
     private LocalDateTime createTime;
-
-    private LocalDateTime updateTime;
-
-    private int version;
 }
