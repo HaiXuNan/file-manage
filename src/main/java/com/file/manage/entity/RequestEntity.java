@@ -16,5 +16,9 @@ public class RequestEntity {
      * 请求体
      */
     private String requestBody;
+    /**
+     * 文件路径
+     */
+    private String filePath;
 
 }

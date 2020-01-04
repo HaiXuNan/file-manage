@@ -20,7 +20,7 @@ public class UserBaseEntity {
 
     private LocalDateTime createTime;
 
-    private String roleId;
+    private int roleId;
 
     private boolean status;
 
