@@ -35,9 +35,9 @@ public class FileStreamService {
         String completePath = filePath + dateStr + suffix;
         File file = new File(completePath);
         try {
-            FileUtils.forceDelete(file);
+            if (file.exists())
+                FileUtils.forceDelete(file);
             multipartFile.transferTo(file);
-
             operateFile(file);
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,13 +60,15 @@ public class FileStreamService {
         if (FileType.text.contains(suffix)) {
             String dest = filePath + dateStr + "/" + suffix + "/" + name;
             File destFile = new File(dest);
-            FileUtils.forceDelete(destFile);
+            if (!destFile.exists())
+                FileUtils.forceMkdirParent(destFile);
             dealFile(file, destFile);
             if (!file.exists()) {
                 throw new ServerException(StatusCode.UPLOAD_FAIL);
             }
+        } else {
+            throw new ServerException(StatusCode.UPDATE_TYPE_FAIL);
         }
-        throw new ServerException(StatusCode.UPDATE_TYPE_FAIL);
     }
 
     /**
@@ -84,10 +86,9 @@ public class FileStreamService {
     }
 
     private void dealFile(File inFile, File destFile) {
-        try {
+        try (FileInputStream inputStream = new FileInputStream(inFile);
+             FileOutputStream outputStream = new FileOutputStream(destFile)) {
             ByteBuffer buffer = ByteBuffer.allocate(1024);
-            FileInputStream inputStream = new FileInputStream(inFile);
-            FileOutputStream outputStream = new FileOutputStream(destFile);
             while (inputStream.read(buffer.array()) != -1) {
                 outputStream.write(buffer.array());
                 buffer.flip();

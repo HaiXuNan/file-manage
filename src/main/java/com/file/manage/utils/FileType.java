@@ -22,6 +22,9 @@ public class FileType {
         text.add("xml");
         text.add("xls");
         text.add("xlsx");
+        text.add("png");
+        text.add("jpg");
+        text.add("svg");
 
         video.add("mp4");
         video.add("avi");
