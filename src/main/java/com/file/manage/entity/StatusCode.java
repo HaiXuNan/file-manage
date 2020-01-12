@@ -7,6 +7,8 @@ public enum StatusCode {
     UPLOAD_FAIL(10010, "文件上传失败"),
     UPDATE_FILE_FAIL(10011, "更新文件失败"),
     UPDATE_TYPE_FAIL(10012, "文件格式不正确"),
+    DELETE_FILE_FAIL(10013, "文件删除失败"),
+    DOWNLOAD_FILE_FAIL(10014, "文件下载失败"),
 
     LOGIN_FAIL(20010, "登录失败"),
     USERNAME_PASSWORD_ERROR(20011, "用户名或密码错误"),

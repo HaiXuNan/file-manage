@@ -8,3 +8,5 @@
 
 后期：
 根据需求，拓展其他的功能
+
+FastDFS client Java: https://github.com/happyfish100/fastdfs-client-java.git

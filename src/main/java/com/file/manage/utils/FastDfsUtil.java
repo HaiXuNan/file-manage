@@ -37,14 +37,14 @@ public class FastDfsUtil {
      * @Title: fdfsUpload
      * @Description: 通过文件流上传文件
      */
-    public static String fdfsUpload(InputStream inputStream, String filename) throws IOException, MyException {
+    public static String fdfsUpload(InputStream inputStream, String fileName) throws IOException, MyException {
         String suffix = ""; //后缀名
         try {
-            suffix = filename.substring(filename.lastIndexOf(".") + 1);
+            suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         } catch (Exception e) {
             throw new RuntimeException("参数filename不正确!格式例如：a.png");
         }
-        StringBuilder savepath = new StringBuilder(); //FastDfs的存储路径
+        StringBuilder savePath = new StringBuilder(); //FastDfs的存储路径
         ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
         byte[] buff = new byte[1024];
         int len = 0;
@@ -54,9 +54,9 @@ public class FastDfsUtil {
         byte[] in2b = swapStream.toByteArray();
         String[] strings = storageClient.upload_file(in2b, suffix, null); //上传文件
         for (String str : strings) {
-            savepath.append("/").append(str); //拼接路径
+            savePath.append("/").append(str); //拼接路径
         }
-        return savepath.toString();
+        return savePath.toString();
     }
 
     /**
@@ -69,20 +69,19 @@ public class FastDfsUtil {
      * @Title: fdfsUpload
      * @Description: 本地文件上传
      */
-    public static String fdfsUpload(String filepath) throws IOException, MyException {
+    public static String fdfsUpload(String filePath) throws IOException, MyException {
         String suffix = ""; //后缀名
         try {
-            suffix = filepath.substring(filepath.lastIndexOf(".") + 1);
+            suffix = filePath.substring(filePath.lastIndexOf(".") + 1);
         } catch (Exception e) {
             throw new RuntimeException("上传的不是文件!");
         }
-        StringBuilder savepath = new StringBuilder(); //FastDfs的存储路径
-        //String[] strings = storageClient.upload_file(filepath.getBytes(), suffix, null);
-        String[] strings = storageClient.upload_file(filepath, suffix, null); //上传文件
+        StringBuilder savePath = new StringBuilder(); //FastDfs的存储路径
+        String[] strings = storageClient.upload_file(filePath, suffix, null); //上传文件
         for (String str : strings) {
-            savepath.append("/").append(str); //拼接路径
+            savePath.append("/").append(str); //拼接路径
         }
-        return savepath.toString();
+        return savePath.toString();
     }
 
     /**
@@ -96,13 +95,13 @@ public class FastDfsUtil {
      * @Title: fdfsDownload
      * @Description: 下载文件到目录
      */
-    public static boolean fdfsDownload(String savepath, String localPath) throws IOException, MyException {
+    public static boolean fdfsDownload(String savePath, String localPath) throws IOException, MyException {
         String group = ""; //存储组
         String path = ""; //存储路径
         try {
-            int secondindex = savepath.indexOf("/", 2); //第二个"/"索引位置
-            group = savepath.substring(1, secondindex); //类似：group1
-            path = savepath.substring(secondindex + 1); //类似：M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png
+            int secondIndex = savePath.indexOf("/", 2); //第二个"/"索引位置
+            group = savePath.substring(1, secondIndex); //类似：group1
+            path = savePath.substring(secondIndex + 1); //类似：M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png
         } catch (Exception e) {
             throw new RuntimeException("传入文件存储路径不正确!格式例如：/group1/M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png");
         }
@@ -123,14 +122,14 @@ public class FastDfsUtil {
      * @Title: fdfsDownload
      * @Description: 返回文件字符数组
      */
-    public static byte[] fdfsDownload(String savepath) throws IOException, MyException {
+    public static byte[] fdfsDownload(String savePath) throws IOException, MyException {
         byte[] bs = null;
         String group = ""; //存储组
         String path = ""; //存储路径
         try {
-            int secondindex = savepath.indexOf("/", 2); //第二个"/"索引位置
-            group = savepath.substring(1, secondindex); //类似：group1
-            path = savepath.substring(secondindex + 1); //类似：M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png
+            int secondIndex = savePath.indexOf("/", 2); //第二个"/"索引位置
+            group = savePath.substring(1, secondIndex); //类似：group1
+            path = savePath.substring(secondIndex + 1); //类似：M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png
         } catch (Exception e) {
             throw new RuntimeException("传入文件存储路径不正确!格式例如：/group1/M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png");
         }
@@ -139,7 +138,7 @@ public class FastDfsUtil {
     }
 
     /**
-     * @param @param  savepath 文件存储路径
+     * @param @param  savePath 文件存储路径
      * @param @return
      * @param @throws IOException
      * @param @throws MyException
@@ -148,13 +147,13 @@ public class FastDfsUtil {
      * @Title: fdfsDeleteFile
      * @Description: 删除文件
      */
-    public static boolean fdfsDeleteFile(String savepath) throws IOException, MyException {
+    public static boolean fdfsDeleteFile(String savePath) throws IOException, MyException {
         String group = ""; //存储组
         String path = ""; //存储路径
         try {
-            int secondindex = savepath.indexOf("/", 2); //第二个"/"索引位置
-            group = savepath.substring(1, secondindex); //类似：group1
-            path = savepath.substring(secondindex + 1); //类似：M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png
+            int secondIndex = savePath.indexOf("/", 2); //第二个"/"索引位置
+            group = savePath.substring(1, secondIndex); //类似：group1
+            path = savePath.substring(secondIndex + 1); //类似：M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png
         } catch (Exception e) {
             throw new RuntimeException("传入文件存储路径不正确!格式例如：/group1/M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png");
         }
@@ -175,13 +174,13 @@ public class FastDfsUtil {
      * @Title: fdfdFileInfo
      * @Description: 返回文件信息
      */
-    public static FileInfo fdfdFileInfo(String savepath) throws IOException, MyException {
+    public static FileInfo fdfdFileInfo(String savePath) throws IOException, MyException {
         String group = ""; //存储组
         String path = ""; //存储路径
         try {
-            int secondindex = savepath.indexOf("/", 2); //第二个"/"索引位置
-            group = savepath.substring(1, secondindex); //类似：group1
-            path = savepath.substring(secondindex + 1); //类似：M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png
+            int secondIndex = savePath.indexOf("/", 2); //第二个"/"索引位置
+            group = savePath.substring(1, secondIndex); //类似：group1
+            path = savePath.substring(secondIndex + 1); //类似：M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png
         } catch (Exception e) {
             throw new RuntimeException("传入文件存储路径不正确!格式例如：/group1/M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png");
         }
@@ -189,7 +188,7 @@ public class FastDfsUtil {
     }
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         FastDfsUtil fast = new FastDfsUtil();
         try {
             String str = "C:\\Users\\xhn\\Desktop\\test.txt";
@@ -200,7 +199,7 @@ public class FastDfsUtil {
         } catch (IOException | MyException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
 
 
