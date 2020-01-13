@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.csource.common.MyException;
 import org.csource.fastdfs.*;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Slf4j
 public class FastDfsUtil {
@@ -105,7 +107,16 @@ public class FastDfsUtil {
         } catch (Exception e) {
             throw new RuntimeException("传入文件存储路径不正确!格式例如：/group1/M00/00/00/wKgBaFv9Ad-Abep_AAUtbU7xcws013.png");
         }
+//        /group1/M00/00/00/MepwVl4cbGKAZwHIAADExC1rVEU229.png
         int result = storageClient.download_file(group, path, localPath);
+        /*int result = -1;
+        try (FileOutputStream fileOutputStream = new FileOutputStream(localPath)){
+            result = storageClient.download_file(group, path, fileOutputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("下载文件失败：文件路径不对或者文件已删除!");
+        }*/
+
         if (result != 0) {
             throw new RuntimeException("下载文件失败：文件路径不对或者文件已删除!");
         }

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Optional;
 
 @Slf4j
@@ -40,7 +41,10 @@ public class FileStreamService {
             if (file.exists())
                 FileUtils.forceDelete(file);
             multipartFile.transferTo(file);
-            operateFile(file);
+            if (!file.exists()) {
+                throw new ServerException(StatusCode.UPLOAD_FAIL);
+            }
+            completePath = operateFile(file);
         } catch (IOException e) {
             e.printStackTrace();
             log.debug("文件上传失败：{}", e.getMessage());
@@ -55,15 +59,12 @@ public class FileStreamService {
     /**
      * 处理文件
      */
-    private void operateFile(File file) throws IOException {
+    private String operateFile(File file) throws IOException {
         String name = file.getName();
         String suffix = name.substring(name.indexOf(".") + 1);
 
         if (FileType.text.contains(suffix)) {
-            dealFile(file, name);
-            if (!file.exists()) {
-                throw new ServerException(StatusCode.UPLOAD_FAIL);
-            }
+            return dealFile(file, name);
         } else {
             throw new ServerException(StatusCode.UPDATE_TYPE_FAIL);
         }
@@ -83,9 +84,16 @@ public class FileStreamService {
 
     }
 
-    private void dealFile(File inFile, String fileName) {
+    /**
+     * 处理文件
+     *
+     * @param inFile   文件流
+     * @param fileName 文件名称
+     * @return 文件路径
+     */
+    private String dealFile(File inFile, String fileName) {
         try (FileInputStream inputStream = new FileInputStream(inFile)) {
-            FastDfsUtil.fdfsUpload(inputStream, fileName);
+            return FastDfsUtil.fdfsUpload(inputStream, fileName);
         } catch (IOException | MyException e) {
             log.debug("文件处理失败：{}", e.getMessage());
             throw new ServerException(StatusCode.UPLOAD_FAIL);
@@ -120,6 +128,12 @@ public class FileStreamService {
         ServletOutputStream outputStream = null;
         try {
             byte[] bytes = FastDfsUtil.fdfsDownload(filePath);
+            String suffix = filePath.substring(filePath.lastIndexOf("."));
+            response.setHeader("content-disposition", "attachment;filename=" + Instant.now().getEpochSecond() + suffix);
+            response.setContentType("application/octet-stream");
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("content-type", "application/" + suffix);
+
             outputStream = response.getOutputStream();
             outputStream.write(bytes);
         } catch (IOException | MyException e) {
